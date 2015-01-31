@@ -3,8 +3,17 @@ import os
 
 from django.conf import settings
 from django.views.generic import TemplateView
-from django.http import Http404
+from django.views.generic import View
+from django.http import Http404, HttpResponse
+import json
+import os
+import os.path
+from os import walk
+from django.views.decorators.csrf import csrf_exempt
+from jsonpath_rw import jsonpath, parse
+
 # Create your views here.
+# https://pypi.python.org/pypi/jsonpath-rw
 
 class PageView(TemplateView):
     template_name = 'content/base.html'
@@ -12,20 +21,109 @@ class PageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(PageView, self).get_context_data(**kwargs)
 
-
-
+    
 
         return context
 
 
-class TestView(TemplateView):
-    template_name = 'content/base.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super(TestView, self).get_context_data(**kwargs)
+@csrf_exempt
+def notify(request):
+    if request.method == 'POST':
+        rulesPath = os.path.join(os.getcwd(),"rules")
 
-        print "test2"
+        requestRule = request.body
+        bFinRule = False
+        matchRule = ''
+
+
+        for (dirpath, dirnames, filenames) in walk(rulesPath):
+            for filename in filenames:
+                if filename.endswith(".rle"):
+                    filePath = os.path.join(rulesPath, filename)
+                    f = open(filePath,'r')
+                    fdata = ""
+                    while 1:
+                        line = f.readline()
+                        if not line:break
+                        fdata += line
+                    f.close()
+
+                    # compare simple strings
+                    if requestRule.replace(' ', '') == fdata.replace(' ', ''):
+                        bFinRule = True
+                        matchRule = filename  
+
+                        break
+
+                    else: # compare complex rule
+                        try:
+                            complexRule = parse(fdata) 
+                            js = json.loads(requestRule)
+                            m = [match.value for match in complexRule.find(js)]
+                            if not len(m) == 0:
+                                bFinRule = True
+                                matchRule = filename  
+
+                                break
+                        except Exception, e:
+                            raise
+                        else:
+                            pass
+                        finally:
+                            pass
+
+            break
+
+        response_data = {  }
+        if bFinRule:
+            executeColor(filename)
+            response_data['result'] = 'ok'
+            response_data['matchRule'] = matchRule
+        else:
+            response_data['result'] = 'failed'
+            if matchRule == '':
+                response_data['matchRule'] = 'No matching rule'
         
 
-        return context
+        return HttpResponse(json.dumps(response_data), content_type="application/json")    
+    else:
+        response_data = {  }
+        response_data['result'] = 'failed'
+        response_data['message'] = 'Use POST method'
+
+        return HttpResponse(json.dumps(response_data), content_type="application/json")    
+
+
+# read color rules
+def executeColor(fileName):
+    colorPath = os.path.join(os.getcwd(),"rules", fileName.replace('.rle', '.clr'))
+    f = open(colorPath, 'r')
+    fdata = ""
+
+    print 'open color shema: ' + colorPath
+    
+    cIn = 0
+    cOut = 0
+    cnt = 0
+    while 1:
+        line = f.readline()
+        if not line:break
+
+        cIn = cIn + line.count('{')
+        cOut = cOut + line.count('}')
+        cnt = cIn - cOut
+
+        fdata += line
+
+        print fdata
+        if cnt == 0:
+            fdata = ''
+            cIn = 0
+            cOut = 0
+        print '----'
+
+    f.close()
+
+    print '======'
+
 

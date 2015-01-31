@@ -1,0 +1,5 @@
+{ lights : [1,2], "on" : true }
+1s
+{ lights : [3], "on" : true }
+2s
+{ groups : ['test_group'], "on" : true }
