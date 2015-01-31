@@ -1,0 +1,72 @@
+{
+    "data": {
+        "ip": "10.10.30.49",
+        "user" : "newdeveloper"
+    }
+}
+
+
+{
+    "light": {"state" : {"on":false}},
+    "lights": [1, 2, 3]
+}
+
+
+
+{
+    "light": {"state" : {"on":true, "hue": 65280, "bri" : 200, "transitiontime" : 20}},
+    "lights": [1]
+}
+
+1000
+
+{
+    "light": {"state" : {"on":true, "hue": 65280, "bri" : 200, "transitiontime" : 20}},
+    "lights": [2]
+}
+
+1000
+
+{
+    "light": {"state" : {"on":true, "hue": 65280, "bri" : 100, "transitiontime" : 30}},
+    "lights": [3]
+}
+
+{
+    "light": {"state" : {"on":true, "hue": 65280, "bri" : 50, "transitiontime" : 10}},
+    "lights": [1]
+}
+
+1000
+
+{
+    "light": {"state" : {"on":true, "hue": 65280, "bri" : 50, "transitiontime" : 10}},
+    "lights": [2]
+}
+
+1000
+
+{
+    "light": {"state" : {"on":true, "hue": 65280, "bri" : 50, "transitiontime" : 10}},
+    "lights": [3]
+}
+
+
+2000
+
+{
+    "light": {"state" : {"on":true, "hue": 36210, "bri" : 50, "transitiontime" : 10}},
+    "lights": [1,2,3]
+}
+
+
+
+
+
+5000
+
+{
+    "light": {"state" : {"on":false}},
+    "lights": [1, 2, 3]
+}
+

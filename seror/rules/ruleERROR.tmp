@@ -1,0 +1,28 @@
+#Example for ERROR request
+http://localhost:8000/notify/
+
+{ 
+   type: ERROR 
+}
+
+-----
+
+
+{ 
+   type: ERROR
+   server: 1
+}
+
+---
+
+{
+    "foo": [
+        {
+            "baz": 1
+        },
+        {
+            "baz": 2
+        }
+    ]
+}
+
