@@ -110,6 +110,7 @@ def colorRules(fileName):
     cOut = 0
     cnt = 0
     sleep = 0
+    context = None
     while 1:
         line = f.readline()
         if not line:break
@@ -136,7 +137,7 @@ def colorRules(fileName):
         
         if cnt == 0:
             if not fdata.strip() == '':
-                executeColor(fdata)
+                context = executeColor(fdata, context)
 
             fdata = ''
             cIn = 0
@@ -145,17 +146,24 @@ def colorRules(fileName):
     f.close()
 
 
-def executeColor(colorString):
+def executeColor(colorString, _context = None):
+    context = {}
+    if not _context == None:
+        context = _context
     
     if 'data' in colorString:
         jdata = json.loads(colorString)
-        DATA_IP = jdata['data']['ip']
-        DATA_USER=jdata['data']['user']
-        print 'IP: ' + DATA_IP + '  USER:' + DATA_USER
+
+        context['DATA_IP'] = jdata['data']['ip']
+        context['DATA_USER']=jdata['data']['user']
 
     if 'light' in colorString:
         jdata = json.loads(colorString) 
 
         for lightId in jdata['lights']:
-            LightControl(DATA_IP, DATA_USER, lightId, jdata['light'])            
+            lightData = jdata['light']
+            print 'Light id:{0}, ip:{1}  user: {2} || {3}'.format(lightId, context['DATA_IP'], context['DATA_USER'], lightData)
 
+            LightControl(context['DATA_IP'], context['DATA_USER'], lightId, lightData)            
+
+    return context

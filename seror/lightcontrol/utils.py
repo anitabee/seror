@@ -20,7 +20,6 @@ class LightControl:
                              user={'name': self.username}
         )
 
-
     def get_light_id(self):
         return self.ligth_id
 

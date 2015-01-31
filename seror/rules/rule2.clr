@@ -15,6 +15,6 @@
 20
 
 {
-    "light": {"on":"False", "bri":2,"sat":230,"xy":[0.3,0.58], "transistiontime":10 },
-    "lights": [1, 2]
+    "light": {"on":"False", "bri":20,"sat":230,"xy":[0.3,0.58], "transistiontime":10 },
+    "lights": [1, 3]
 }
