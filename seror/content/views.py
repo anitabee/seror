@@ -13,6 +13,8 @@ from django.views.decorators.csrf import csrf_exempt
 from jsonpath_rw import jsonpath, parse
 import re
 import time
+from . import DATA_IP, DATA_USER
+from lightcontrol.utils import LightControl
 
 # Create your views here.
 # https://pypi.python.org/pypi/jsonpath-rw
@@ -142,5 +144,18 @@ def colorRules(fileName):
 
     f.close()
 
+
 def executeColor(colorString):
-    print 'execute color:' + colorString
+    
+    if 'data' in colorString:
+        jdata = json.loads(colorString)
+        DATA_IP = jdata['data']['ip']
+        DATA_USER=jdata['data']['user']
+        print 'IP: ' + DATA_IP + '  USER:' + DATA_USER
+
+    if 'light' in colorString:
+        jdata = json.loads(colorString) 
+
+        for lightId in jdata['lights']:
+            LightControl(DATA_IP, DATA_USER, lightId, jdata['light'])            
+
