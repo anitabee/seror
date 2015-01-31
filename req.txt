@@ -2,3 +2,4 @@ Django
 Unipath
 beautifulhue
 simplejson
+jsonpath_rw
