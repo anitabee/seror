@@ -1,5 +1,21 @@
-{ lights : [1,2], "on" : true }
-1s
-{ lights : [3], "on" : true }
-2s
-{ groups : ['test_group'], "on" : true }
+{
+    "data": {
+        "ip": "10.10.30.49",
+        "light": [1 ,2]
+    },
+    "light": {
+        "on": "true"
+    }
+}
+
+5000
+
+{
+    "data": {
+        "ip": "10.10.30.49",
+        "light": [1 ,2]
+    },
+    "light": {
+        "on": "true"
+    }
+}

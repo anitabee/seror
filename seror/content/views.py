@@ -11,6 +11,8 @@ import os.path
 from os import walk
 from django.views.decorators.csrf import csrf_exempt
 from jsonpath_rw import jsonpath, parse
+import re
+import time
 
 # Create your views here.
 # https://pypi.python.org/pypi/jsonpath-rw
@@ -66,7 +68,7 @@ def notify(request):
 
                                 break
                         except Exception, e:
-                            raise
+                            pass
                         else:
                             pass
                         finally:
@@ -76,7 +78,7 @@ def notify(request):
 
         response_data = {  }
         if bFinRule:
-            executeColor(filename)
+            colorRules(filename)
             response_data['result'] = 'ok'
             response_data['matchRule'] = matchRule
         else:
@@ -95,19 +97,33 @@ def notify(request):
 
 
 # read color rules
-def executeColor(fileName):
+def colorRules(fileName):
     colorPath = os.path.join(os.getcwd(),"rules", fileName.replace('.rle', '.clr'))
+    p = re.compile('^[0-9]+$')
+
     f = open(colorPath, 'r')
     fdata = ""
-
-    print 'open color shema: ' + colorPath
     
     cIn = 0
     cOut = 0
     cnt = 0
+    sleep = 0
     while 1:
         line = f.readline()
         if not line:break
+
+        if line.strip() == '':
+            continue
+
+        if p.match(line):
+            sleep = int(line) / 1000
+            fdata = ''
+            cIn = 0
+            cOut = 0
+
+            time.sleep(sleep)
+            sleep = 0
+            continue
 
         cIn = cIn + line.count('{')
         cOut = cOut + line.count('}')
@@ -115,15 +131,16 @@ def executeColor(fileName):
 
         fdata += line
 
-        print fdata
+        
         if cnt == 0:
+            if not fdata.strip() == '':
+                executeColor(fdata)
+
             fdata = ''
             cIn = 0
             cOut = 0
-        print '----'
 
     f.close()
 
-    print '======'
-
-
+def executeColor(colorString):
+    print 'execute color:' + colorString
