@@ -22,7 +22,7 @@ class TestView(TemplateView):
     template_name = 'content/base.html'
     
     def get_context_data(self, **kwargs):
-        context = super(PageView, self).get_context_data(**kwargs)
+        context = super(TestView, self).get_context_data(**kwargs)
 
         print "test2"
         
