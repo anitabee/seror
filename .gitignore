@@ -1,0 +1,11 @@
+/media/
+/collected_static/
+*.py[oc]
+.idea/
+*.ipynb
+
+
+*~
+settings_local.py
+*sqlite3
+
