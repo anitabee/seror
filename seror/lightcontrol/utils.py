@@ -33,9 +33,3 @@ class LightControl:
 
 
 
-#some testing
-json_params = {'state':{'on':True, 'ct':245}}
-test = LightControl("10.10.30.49", "newdeveloper", 1, json_params)
-print(test.which_data())
-
-
