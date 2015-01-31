@@ -161,7 +161,7 @@ def executeColor(colorString, _context = None):
         jdata = json.loads(colorString) 
 
         for lightId in jdata['lights']:
-            lightData = jdata['light']
+            lightData = json.dumps(jdata['light'])
             print 'Light id:{0}, ip:{1}  user: {2} || {3}'.format(lightId, context['DATA_IP'], context['DATA_USER'], lightData)
 
             LightControl(context['DATA_IP'], context['DATA_USER'], lightId, lightData)            

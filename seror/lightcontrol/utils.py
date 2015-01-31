@@ -32,6 +32,7 @@ class LightControl:
 
 
 #some testing
+#json_params = {'state': {"on":False, "bri":2,"sat":230,"xy":[0.3,0.58], "transistiontime":10}}
 json_params = {'state': {"on":False, "bri":2,"sat":230,"xy":[0.3,0.58], "transistiontime":10}}
 test = LightControl("10.10.30.49", "newdeveloper", 2, json_params)
 

@@ -8,13 +8,13 @@
 50
 
 {
-    "light": {"on":"False", "bri":2,"sat":230,"xy":[0.3,0.58], "transistiontime":10 },
+    "light": {"on":true},
     "lights": [1, 2]
 }
 
-20
+2000
 
 {
-    "light": {"on":"False", "bri":20,"sat":230,"xy":[0.3,0.58], "transistiontime":10 },
+    "light": {"on":false},
     "lights": [1, 3]
 }
